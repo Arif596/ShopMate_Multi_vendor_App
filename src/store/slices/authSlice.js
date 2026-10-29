@@ -141,6 +141,11 @@ const authSlice = createSlice({
     isRequestingForToken: false,
     isCheckingAuth: true,
   },
+  reducers: {
+  setAuthUser: (state, action) => {
+    state.authUser = action.payload;
+  },
+},
   extraReducers: (builder) => {
     // Register
     builder.addCase(register.pending, (state) => {
@@ -230,5 +235,5 @@ const authSlice = createSlice({
     });
   },
 });
-
+export const { setAuthUser } = authSlice.actions;
 export default authSlice.reducer;

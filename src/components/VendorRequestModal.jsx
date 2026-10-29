@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader2, X } from "lucide-react";
-import { toast } from "react-toastify"; // apni toast library ke mutabiq badlo
-import { axiosInstance } from "../lib/axios"; // apna axios path/naam use karo
+import { toast } from "react-toastify";
+import { axiosInstance } from "../lib/axios";
 import { toggleVendorModal } from "../store/slices/popupSlice";
 
 const VendorRequestModal = () => {
@@ -10,9 +10,17 @@ const VendorRequestModal = () => {
   const open = useSelector((s) => s.popup.isVendorModalOpen);
   const user = useSelector((s) => s.auth?.authUser);
 
-  const [name, setName] = useState(user?.name || "");
+  const [name, setName] = useState("");
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Jab modal khule ya user badle, current user ka naam set karo aur form saaf karo
+  useEffect(() => {
+    if (open && user) {
+      setName(user.name || "");
+      setReason("");
+    }
+  }, [open, user?.id]);
 
   if (!open || !user) return null;
 
@@ -56,7 +64,9 @@ const VendorRequestModal = () => {
       >
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-foreground">Become a Vendor</h2>
+            <h2 className="text-lg font-semibold text-foreground">
+              Become a Vendor
+            </h2>
             <p className="text-sm text-muted-foreground">
               Tell us why you want to sell on Shop Mate.
             </p>
@@ -67,12 +77,21 @@ const VendorRequestModal = () => {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-foreground">Name</label>
-          <input className={input} value={name} onChange={(e) => setName(e.target.value)} required />
+          <label className="mb-1 block text-sm font-medium text-foreground">
+            Name
+          </label>
+          <input
+            className={input}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-foreground">Email</label>
+          <label className="mb-1 block text-sm font-medium text-foreground">
+            Email
+          </label>
           <input className={input} value={user.email} disabled readOnly />
         </div>
 

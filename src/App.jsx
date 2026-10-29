@@ -141,6 +141,8 @@ import VendorRoute from "./Vendors/Component/VendorRoute";
 // Store
 import { GetUser } from "./store/slices/authSlice";
 import { fetchAllProduct } from "./store/slices/productSlice";
+import VendorApprovedPopup from "./components/VendorApprovedPopup";
+import AuthRefresher from "./components/AuthRefresher";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -179,7 +181,9 @@ const App = () => {
             <CartSidebar />
             <ProfilePanel />
             <LoginModal />
+            <AuthRefresher/>
             <VendorRequestModal />
+            <VendorApprovedPopup/>
 
             <Routes>
               <Route path="/" element={<Index />} />
